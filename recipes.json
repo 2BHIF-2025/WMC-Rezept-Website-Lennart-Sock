@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Tomatenreis",
+    "ingredients": ["reis", "tomaten", "zwiebel"],
+    "time": 20
+  },
+  {
+    "name": "Käsebrot",
+    "ingredients": ["brot", "käse"],
+    "time": 5
+  },
+  {
+    "name": "Omelett",
+    "ingredients": ["ei", "milch", "käse"],
+    "time": 10
+  }
+]
