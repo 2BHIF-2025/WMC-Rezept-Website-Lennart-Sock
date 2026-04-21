@@ -7,4 +7,29 @@ window.search = async function () {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ingredients })
     });
+    const data = await res.json();
+    const list = document.getElementById("results");
+    list.innerHTML = "";
+
+    data.forEach(recipe => {
+        const li = document.createElement("li");
+        li.textContent = recipe.name + " (" + recipe.matchCount + " Treffer)";
+        list.appendChild(li);
+    });
+};
+
+async function loadTopIngredients() {
+    const res = await fetch("http://localhost:3000/top-ingredients");
+    const data = await res.json();
+
+    const list = document.getElementById("topIngredients");
+    list.innerHTML = "";
+
+    data.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item[0] + " (" + item[1] + ")";
+        list.appendChild(li);
+    });
 }
+
+loadTopIngredients();
