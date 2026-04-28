@@ -6,6 +6,7 @@ const path = require("path");
 app.use(express.json());
 app.use(express.static("public"));
 
+//Zutaten vom User in rezept umwandeln und zurückgeben, sortiert nach Anzahl der Treffer
 app.post("/search", (req, res) => {
     const userIngredients = req.body.ingredients.map(i => i.toLowerCase());
 
@@ -25,22 +26,27 @@ app.post("/search", (req, res) => {
     res.json(results);
 });
 
+// Server starten
 app.listen(3000, () => {
     console.log("Server läuft auf http://localhost:3000");
 });
 
+// HTML zurückgeben
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname,"index.html"));
 });
 
+//CSS zurückgeben
 app.get("/style.css", (req, res) => {
     res.sendFile(path.join(__dirname,"style.css"));
 });
 
+//JS zurückgeben
 app.get("/script.js", (req, res) => {
     res.sendFile(path.join(__dirname,"script.js"));
 });
 
+//get top 5 ingredients with count and return as json
 app.get("/top-ingredients", (req, res) => {
     const count = {};
 
