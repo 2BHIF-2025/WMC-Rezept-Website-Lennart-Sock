@@ -7,6 +7,7 @@ window.search = async function () {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ingredients })
     });
+
     const data = await res.json();
     const list = document.getElementById("results");
     list.innerHTML = "";

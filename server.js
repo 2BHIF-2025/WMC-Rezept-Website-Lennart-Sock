@@ -29,6 +29,18 @@ app.listen(3000, () => {
     console.log("Server läuft auf http://localhost:3000");
 });
 
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname,"index.html"));
+});
+
+app.get("/style.css", (req, res) => {
+    res.sendFile(path.join(__dirname,"style.css"));
+});
+
+app.get("/script.js", (req, res) => {
+    res.sendFile(path.join(__dirname,"script.js"));
+});
+
 app.get("/top-ingredients", (req, res) => {
     const count = {};
 
