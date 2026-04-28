@@ -2,9 +2,9 @@
 
 Was ich bis 28.4.2026 erreichen will: 
 
-1. Dass das Suchen von Rezepten mit Lebensmittel vollständing funktioniert
+1. Dass das Suchen von Rezepten mit Lebensmittel vollständing funktioniert✅
 
-2. Dass das Leaderboard von den Lebensmitteln mit den meisten Rezepten funktioniert
+2. Dass das Leaderboard von den Lebensmitteln mit den meisten Rezepten funktioniert✅
 
 3. Dass nach der Suche die besten 3 Rezepte aufpoppen und man sich für eines entscheiden kann
 
