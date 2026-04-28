@@ -46,7 +46,7 @@ app.get("/script.js", (req, res) => {
     res.sendFile(path.join(__dirname,"script.js"));
 });
 
-//get top 5 ingredients with count and return as json
+//get top 5 ingredients mit anzahl der vorkommen in rezepten
 app.get("/top-ingredients", (req, res) => {
     const count = {};
 
