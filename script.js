@@ -1,27 +1,54 @@
-//Suchfunktion
+// Suchfunktion
 window.search = async function () {
+
     const input = document.getElementById("input").value;
     const ingredients = input.split(",").map(i => i.trim());
 
-    // Anfrage an server senden
     const res = await fetch("http://localhost:3000/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ingredients })
     });
 
-    // Ergebnisse erhalten
     const data = await res.json();
-    const list = document.getElementById("results");
-    list.innerHTML = "";
 
-    // Ergebnisse anzeigen
+    const modal = document.getElementById("recipeModal");
+    const modalResults = document.getElementById("modalResults");
+
+    modalResults.innerHTML = "";
+
+    if (data.length === 0) {
+        modalResults.innerHTML = `
+            <p>Keine Rezepte gefunden 😢</p>
+        `;
+    }
+
     data.forEach(recipe => {
-        const li = document.createElement("li");
-        li.textContent = recipe.name + " (" + recipe.matchCount + " Treffer)";
-        list.appendChild(li);
+
+        const card = document.createElement("div");
+        card.classList.add("recipe-card");
+
+        card.innerHTML = `
+            <h2>${recipe.name}</h2>
+
+            <p>
+                ${recipe.matchCount} passende Zutaten
+            </p>
+
+            <button class="choose-btn">
+                Rezept auswählen
+            </button>
+        `;
+
+        modalResults.appendChild(card);
     });
+
+    modal.style.display = "flex";
 };
+
+function closeModal() {
+    document.getElementById("recipeModal").style.display = "none";
+}
 
 // Funktion zum laden der top zutaten
 async function loadTopIngredients() {
