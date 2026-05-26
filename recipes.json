@@ -1,28 +1,147 @@
 [
   {
+    "id": 1,
     "name": "Tomatenreis",
     "ingredients": [
       "reis",
       "tomaten",
-      "zwiebel"
+      "zwiebel",
+      "öl"
     ],
-    "time": 20
+    "steps": [
+      "Reis in einem Topf kochen.",
+      "Zwiebel klein schneiden.",
+      "Tomaten würfeln.",
+      "Zwiebeln in Öl anbraten.",
+      "Tomaten hinzufügen und kurz köcheln lassen.",
+      "Den gekochten Reis untermischen.",
+      "Alles gut verrühren und servieren."
+    ]
   },
   {
-    "name": "Käsebrot",
-    "ingredients": [
-      "brot",
-      "käse"
-    ],
-    "time": 5
-  },
-  {
-    "name": "Omelett",
+    "id": 2,
+    "name": "Käseomelett",
     "ingredients": [
       "ei",
+      "käse",
       "milch",
-      "käse"
+      "butter"
     ],
-    "time": 10
+    "steps": [
+      "Eier in einer Schüssel aufschlagen.",
+      "Milch hinzufügen und verrühren.",
+      "Käse reiben.",
+      "Butter in einer Pfanne schmelzen.",
+      "Die Eiermischung in die Pfanne geben.",
+      "Käse darüber streuen.",
+      "Das Omelett zusammenklappen und servieren."
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Spaghetti Bolognese",
+    "ingredients": [
+      "spaghetti",
+      "hackfleisch",
+      "tomaten",
+      "zwiebel"
+    ],
+    "steps": [
+      "Spaghetti kochen.",
+      "Zwiebel klein schneiden.",
+      "Hackfleisch in einer Pfanne anbraten.",
+      "Tomaten hinzufügen.",
+      "Die Sauce einige Minuten köcheln lassen.",
+      "Spaghetti mit der Sauce servieren."
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Chicken Wrap",
+    "ingredients": [
+      "hähnchen",
+      "wrap",
+      "salat",
+      "tomaten"
+    ],
+    "steps": [
+      "Hähnchen anbraten.",
+      "Tomaten schneiden.",
+      "Salat waschen.",
+      "Wrap kurz erwärmen.",
+      "Alle Zutaten in den Wrap geben.",
+      "Wrap einrollen und servieren."
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Pfannkuchen",
+    "ingredients": [
+      "mehl",
+      "ei",
+      "milch",
+      "zucker"
+    ],
+    "steps": [
+      "Mehl, Eier und Milch verrühren.",
+      "Etwas Zucker hinzufügen.",
+      "Teig glatt rühren.",
+      "Pfanne erhitzen.",
+      "Teig in die Pfanne geben.",
+      "Beide Seiten goldbraun backen."
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Caesar Salad",
+    "ingredients": [
+      "salat",
+      "hähnchen",
+      "käse",
+      "brot"
+    ],
+    "steps": [
+      "Salat waschen.",
+      "Hähnchen anbraten.",
+      "Brot würfeln und rösten.",
+      "Käse reiben.",
+      "Alles in einer Schüssel vermischen.",
+      "Dressing hinzufügen."
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Pizza Margherita",
+    "ingredients": [
+      "teig",
+      "tomaten",
+      "käse",
+      "basilikum"
+    ],
+    "steps": [
+      "Teig ausrollen.",
+      "Tomatensauce auftragen.",
+      "Käse darüber streuen.",
+      "Pizza im Ofen backen.",
+      "Mit Basilikum garnieren."
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Burger",
+    "ingredients": [
+      "burgerbrot",
+      "hackfleisch",
+      "käse",
+      "salat"
+    ],
+    "steps": [
+      "Hackfleisch zu Patties formen.",
+      "Patties anbraten.",
+      "Burgerbrot kurz toasten.",
+      "Salat vorbereiten.",
+      "Burger zusammenbauen.",
+      "Servieren."
+    ]
   }
 ]

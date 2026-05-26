@@ -40,6 +40,10 @@ window.search = async function () {
             </button>
         `;
 
+        card.addEventListener("click", () => {
+            openRecipe(recipe);
+        });
+
         modalResults.appendChild(card);
     });
 
@@ -64,6 +68,52 @@ async function loadTopIngredients() {
         li.textContent = item[0] + " (" + item[1] + ")";
         list.appendChild(li);
     });
+}
+
+// Rezept öffnen
+function openRecipe(recipe) {
+
+    const modal = document.getElementById("recipeViewModal");
+    const content = document.getElementById("recipeViewContent");
+
+    content.innerHTML = `
+        <h1>${recipe.name}</h1>
+
+        <h3>Zutaten:</h3>
+
+        <ul>
+            ${recipe.ingredients.map(i => `
+                <li>${i}</li>
+            `).join("")}
+        </ul>
+
+        <h3>Schritt für Schritt:</h3>
+
+        <div class="steps-container">
+
+            ${recipe.steps.map((step, index) => `
+
+                <div class="step-card">
+
+                    <input type="checkbox" class="step-checkbox">
+
+                    <div>
+                        <h4>Schritt ${index + 1}</h4>
+                        <p>${step}</p>
+                    </div>
+
+                </div>
+
+            `).join("")}
+
+        </div>
+    `;
+
+    modal.style.display = "flex";
+}
+
+function closeRecipeModal() {
+    document.getElementById("recipeViewModal").style.display = "none";
 }
 
 loadTopIngredients();

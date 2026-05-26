@@ -173,3 +173,48 @@ li {
         transform: scale(1);
     }
 }
+
+.recipe-modal-content {
+    width: 700px;
+}
+
+.steps-container {
+    margin-top: 20px;
+}
+
+.step-card {
+
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+
+    background: #f3f3f3;
+
+    padding: 15px;
+    border-radius: 15px;
+
+    margin-top: 15px;
+
+    transition: 0.2s;
+}
+
+.step-card:hover {
+    transform: translateY(-2px);
+}
+
+.step-checkbox {
+    width: 22px;
+    height: 22px;
+    margin-top: 5px;
+
+    cursor: pointer;
+}
+
+.step-card h4 {
+    margin: 0;
+}
+
+.step-card p {
+    margin-top: 5px;
+    color: #555;
+}
