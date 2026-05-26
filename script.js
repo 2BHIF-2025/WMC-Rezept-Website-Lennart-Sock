@@ -107,9 +107,53 @@ function openRecipe(recipe) {
             `).join("")}
 
         </div>
-    `;
+
+<button id="libraryBtn" class="library-btn" style="display:none;">
+    Zur Bibliothek hinzufügen
+</button>
+`;
 
     modal.style.display = "flex";
+    const checkboxes = document.querySelectorAll(".step-checkbox");
+    const libraryBtn = document.getElementById("libraryBtn");
+
+    checkboxes.forEach(box => {
+
+        box.addEventListener("change", () => {
+
+            const allChecked = [...checkboxes].every(c => c.checked);
+
+            if (allChecked) {
+                libraryBtn.style.display = "block";
+            } else {
+                libraryBtn.style.display = "none";
+            }
+        });
+    });
+
+    // Rezept speichern
+    libraryBtn.addEventListener("click", () => {
+        addToLibrary(recipe);
+    });
+}
+
+function addToLibrary(recipe) {
+
+    const library = document.getElementById("libraryList");
+
+    // Placeholder entfernen
+    if (library.innerHTML.includes("Noch keine")) {
+        library.innerHTML = "";
+    }
+
+    const item = document.createElement("div");
+    item.classList.add("library-item");
+
+    item.innerHTML = `
+        🍽️ ${recipe.name}
+    `;
+
+    library.appendChild(item);
 }
 
 function closeRecipeModal() {
