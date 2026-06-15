@@ -116,20 +116,7 @@ function openRecipe(recipe) {
     modal.style.display = "flex";
     const checkboxes = document.querySelectorAll(".step-checkbox");
     const libraryBtn = document.getElementById("libraryBtn");
-
-    checkboxes.forEach(box => {
-
-        box.addEventListener("change", () => {
-
-            const allChecked = [...checkboxes].every(c => c.checked);
-
-            if (allChecked) {
-                libraryBtn.style.display = "block";
-            } else {
-                libraryBtn.style.display = "none";
-            }
-        });
-    });
+    libraryBtn.style.display = "block";
 
     // Rezept speichern
     libraryBtn.addEventListener("click", () => {
@@ -154,6 +141,9 @@ function addToLibrary(recipe) {
     `;
 
     library.appendChild(item);
+
+    closeRecipeModal();
+    closeModal();
 }
 
 function closeRecipeModal() {

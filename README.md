@@ -11,3 +11,5 @@ Was ich bis 28.4.2026 erreichen will:
 4. Dass nach dem Entscheiden eines Rezepts, das ganze Rezept aufgelistet ist, aber mehr so nach step by step, dass es dem user mehr spaß macht, also es gibt z.b. 1: mach das und das, dann eine box daneben, mit der man die task abhaken kann✅
 
 5. alles schön gestalten
+
+6. Rezept API?, Userprofil?, 
