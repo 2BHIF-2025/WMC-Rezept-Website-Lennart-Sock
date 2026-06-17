@@ -1,8 +1,8 @@
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+    font-family: 'Quicksand', Arial, sans-serif;
+    background: linear-gradient(135deg, #a8e6a1, #74d574);
     margin: 0;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -36,14 +36,15 @@ button {
     padding: 10px 20px;
     border: none;
     border-radius: 8px;
-    background: #74ebd5;
+    background: #74d574;
     cursor: pointer;
     font-weight: bold;
+    font-family: inherit;
     transition: 0.2s;
 }
 
 button:hover {
-    background: #5fd3bd;
+    background: #5fbd5f;
 }
 
 ul {
@@ -82,10 +83,16 @@ li {
 }
 
 .sidebar li {
-    background: #e8f7f5;
+    background: #e8f7ec;
     padding: 8px;
     border-radius: 8px;
     margin-bottom: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.sidebar li:hover {
+    background: #c9ecd0;
 }
 
 /* MODAL */
@@ -155,7 +162,7 @@ li {
     border: none;
     border-radius: 8px;
 
-    background: #74ebd5;
+    background: #74d574;
 
     cursor: pointer;
     font-weight: bold;
@@ -247,6 +254,13 @@ li {
     border-radius: 10px;
 
     margin-top: 10px;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.library-item:hover {
+    background: #e8f7ec;
 }
 
 .library-btn {
@@ -260,8 +274,9 @@ li {
     border: none;
     border-radius: 12px;
 
-    background: #74ebd5;
+    background: #74d574;
 
+    font-family: inherit;
     font-weight: bold;
 
     cursor: pointer;
@@ -270,6 +285,171 @@ li {
 }
 
 .library-btn:hover {
-    background: #5fd3bd;
+    background: #5fbd5f;
 }
 
+/* Ingredient adder + chips */
+
+.ingredient-adder {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.ingredient-adder input {
+    flex: 1;
+    width: auto;
+    margin-bottom: 0;
+}
+
+.ingredient-adder .add-btn {
+    padding: 10px 16px;
+    white-space: nowrap;
+}
+
+.selected-ingredients {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 15px;
+    min-height: 8px;
+}
+
+.chip {
+    background: #74d574;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+    user-select: none;
+}
+
+.chip:hover {
+    background: #5fbd5f;
+}
+
+.chip::after {
+    content: " \00d7";
+    font-weight: bold;
+}
+
+.quick-select {
+    margin-bottom: 15px;
+}
+
+.quick-select-label {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    color: #555;
+    text-align: left;
+}
+
+.quick-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.quick-chip {
+    background: #e8f7ec;
+    border: 2px solid #74d574;
+    color: #2d6a2d;
+    padding: 5px 11px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+    user-select: none;
+}
+
+.quick-chip:hover,
+.quick-chip.active {
+    background: #74d574;
+    color: white;
+}
+
+.search-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+/* Responsive */
+
+@media (max-width: 1100px) {
+    body {
+        height: auto;
+        min-height: 100vh;
+        align-items: flex-start;
+        padding: 20px 0;
+    }
+
+    .layout {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+
+    .library-card,
+    .sidebar {
+        position: static;
+        transform: none;
+        width: 100%;
+        max-width: 350px;
+        height: auto;
+        left: auto;
+        right: auto;
+        top: auto;
+        box-sizing: border-box;
+    }
+
+    .container {
+        order: 1;
+        width: 100%;
+        max-width: 400px;
+        box-sizing: border-box;
+    }
+
+    .library-card {
+        order: 2;
+    }
+
+    .sidebar {
+        order: 3;
+    }
+}
+
+@media (max-width: 500px) {
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .modal-content {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .recipe-modal-content {
+        width: 90%;
+    }
+
+    .step-card {
+        flex-direction: row;
+        gap: 10px;
+        padding: 12px;
+    }
+}

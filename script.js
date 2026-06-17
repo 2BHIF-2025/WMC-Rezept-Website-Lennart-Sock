@@ -1,13 +1,97 @@
+let selectedIngredients = [];
+
+const ingredienticons = {
+    reis: "🍚",
+    tomate: "🍅",
+    tomaten: "🍅",
+    zwiebel: "🧅",
+    "öl": "🫒",
+    ei: "🥚",
+    "käse": "🧀",
+    milch: "🥛",
+    butter: "🧈",
+    spaghetti: "🍝",
+    hackfleisch: "🥩",
+    "hähnchen": "🍗",
+    wrap: "🌯",
+    salat: "🥗",
+    mehl: "🌾",
+    zucker: "🍬",
+    brot: "🍞",
+    teig: "🥐",
+    basilikum: "🌿",
+    burgerbrot: "🍔"
+};
+
+function iconFor(name) {
+    return ingredienticons[(name || "").toLowerCase()] || "🥄";
+}
+
+function capitalize(s) {
+    if (!s) return s;
+    return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+function formatIngredient(name) {
+    return `${iconFor(name)} ${capitalize(name)}`;
+}
+
+// Zutat hinzufügen aus dem Input-Feld
+window.addIngredient = function () {
+    const inputEl = document.getElementById("input");
+    const value = inputEl.value.trim().toLowerCase();
+
+    if (!value) return;
+
+    if (!selectedIngredients.includes(value)) {
+        selectedIngredients.push(value);
+        renderSelectedIngredients();
+    }
+
+    inputEl.value = "";
+    inputEl.focus();
+};
+
+// Zutat per Klick (z.B. aus Schnellauswahl) hinzufügen
+function addIngredientByName(name) {
+    const value = name.trim().toLowerCase();
+    if (!value) return;
+    if (selectedIngredients.includes(value)) return; //Keine doppeleintragung
+    selectedIngredients.push(value);
+    renderSelectedIngredients();
+}
+
+function renderSelectedIngredients() {
+    const container = document.getElementById("selectedIngredients");
+    container.innerHTML = "";
+
+    selectedIngredients.forEach(ingredient => {
+        const chip = document.createElement("span");
+        chip.classList.add("chip");
+        chip.textContent = formatIngredient(ingredient);
+        chip.title = "Entfernen";
+
+        chip.addEventListener("click", () => {
+            selectedIngredients = selectedIngredients.filter(i => i !== ingredient);
+            renderSelectedIngredients();
+        });
+
+        container.appendChild(chip);
+    });
+}
+
 // Suchfunktion
 window.search = async function () {
 
-    const input = document.getElementById("input").value;
-    const ingredients = input.split(",").map(i => i.trim());
+    if (selectedIngredients.length === 0) {
+        alert("Bitte zuerst mindestens eine Zutat hinzufügen!");
+        return;
+    }
 
     const res = await fetch("http://localhost:3000/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ingredients })
+        body: JSON.stringify({ ingredients: selectedIngredients })
     });
 
     const data = await res.json();
@@ -54,19 +138,29 @@ function closeModal() {
     document.getElementById("recipeModal").style.display = "none";
 }
 
-// Funktion zum laden der top zutaten
 async function loadTopIngredients() {
     const res = await fetch("http://localhost:3000/top-ingredients");
     const data = await res.json();
-
     const list = document.getElementById("topIngredients");
     list.innerHTML = "";
 
-    // Zutaten anzeigen
     data.forEach(item => {
         const li = document.createElement("li");
-        li.textContent = item[0] + " (" + item[1] + ")";
+        li.textContent = `${formatIngredient(item[0])} (${item[1]})`;
+        li.title = "Zur Auswahl hinzufügen";
+        li.addEventListener("click", () => addIngredientByName(item[0]));
         list.appendChild(li);
+    });
+
+    const quickSelect = document.getElementById("quickSelect");
+    quickSelect.innerHTML = "";
+
+    data.forEach(item => {
+        const chip = document.createElement("span");
+        chip.classList.add("quick-chip");
+        chip.textContent = formatIngredient(item[0]);
+        chip.addEventListener("click", () => addIngredientByName(item[0]));
+        quickSelect.appendChild(chip);
     });
 }
 
@@ -76,6 +170,8 @@ function openRecipe(recipe) {
     const modal = document.getElementById("recipeViewModal");
     const content = document.getElementById("recipeViewContent");
 
+    const alreadySaved = isInLibrary(recipe);
+
     content.innerHTML = `
         <h1>${recipe.name}</h1>
 
@@ -83,7 +179,7 @@ function openRecipe(recipe) {
 
         <ul>
             ${recipe.ingredients.map(i => `
-                <li>${i}</li>
+                <li>${formatIngredient(i)}</li>
             `).join("")}
         </ul>
 
@@ -108,39 +204,98 @@ function openRecipe(recipe) {
 
         </div>
 
-<button id="libraryBtn" class="library-btn" style="display:none;">
-    Zur Bibliothek hinzufügen
+<button id="libraryBtn" class="library-btn">
+    ${alreadySaved ? "Aus Bibliothek löschen" : "Zur Bibliothek hinzufügen"}
 </button>
 `;
 
     modal.style.display = "flex";
-    const checkboxes = document.querySelectorAll(".step-checkbox");
-    const libraryBtn = document.getElementById("libraryBtn");
-    libraryBtn.style.display = "block";
 
-    // Rezept speichern
+    const libraryBtn = document.getElementById("libraryBtn");
+
+    // Rezept speichern oder entfernen
     libraryBtn.addEventListener("click", () => {
-        addToLibrary(recipe);
+        if (isInLibrary(recipe)) {
+            removeFromLibrary(recipe);
+        } else {
+            addToLibrary(recipe);
+        }
     });
+}
+
+// Library laden / speichern (localStorage)
+
+function getLibrary() {
+    try {
+        return JSON.parse(localStorage.getItem("rezepte")) || [];
+    } catch (e) {
+        return [];
+    }
+}
+
+function saveLibrary(library) {
+    localStorage.setItem("rezepte", JSON.stringify(library));
+}
+
+function isInLibrary(recipe) {
+    return getLibrary().some(r => r.id === recipe.id);
+}
+
+function loadLibrary() {
+    const library = getLibrary();
+    const list = document.getElementById("libraryList");
+
+    if (library.length === 0) {
+        list.innerHTML = `<p>Noch keine Rezepte gespeichert</p>`;
+        return;
+    }
+
+    list.innerHTML = "";
+    library.forEach(recipe => renderLibraryItem(recipe));
+}
+
+function renderLibraryItem(recipe) {
+    const list = document.getElementById("libraryList");
+
+    const item = document.createElement("div");
+    item.classList.add("library-item");
+    item.textContent = `🍽️ ${recipe.name}`;
+    item.title = "Rezept öffnen";
+
+    item.addEventListener("click", () => openRecipe(recipe));
+
+    list.appendChild(item);
 }
 
 function addToLibrary(recipe) {
 
-    const library = document.getElementById("libraryList");
+    const library = getLibrary();
 
-    // Placeholder entfernen
-    if (library.innerHTML.includes("Noch keine")) {
-        library.innerHTML = "";
+    if (library.some(r => r.id === recipe.id)) {
+        closeRecipeModal();
+        closeModal();
+        return;
     }
 
-    const item = document.createElement("div");
-    item.classList.add("library-item");
+    library.push(recipe);
+    saveLibrary(library);
 
-    item.innerHTML = `
-        🍽️ ${recipe.name}
-    `;
+    const list = document.getElementById("libraryList");
+    if (list.innerHTML.includes("Noch keine")) {
+        list.innerHTML = "";
+    }
+    renderLibraryItem(recipe);
 
-    library.appendChild(item);
+    closeRecipeModal();
+    closeModal();
+}
+
+function removeFromLibrary(recipe) {
+
+    const library = getLibrary().filter(r => r.id !== recipe.id);
+    saveLibrary(library);
+
+    loadLibrary();
 
     closeRecipeModal();
     closeModal();
@@ -150,4 +305,15 @@ function closeRecipeModal() {
     document.getElementById("recipeViewModal").style.display = "none";
 }
 
-loadTopIngredients();
+document.addEventListener("DOMContentLoaded", () => {
+    loadLibrary();
+    loadTopIngredients();
+
+    const inputEl = document.getElementById("input");
+    inputEl.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            window.addIngredient();
+        }
+    });
+});

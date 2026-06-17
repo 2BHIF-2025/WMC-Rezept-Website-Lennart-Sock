@@ -3,7 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Was esse ich heute?</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -24,9 +29,19 @@
         <div class="container">
             <h1>🍽️ Was esse ich heute?</h1>
 
-            <input id="input" placeholder="z.B. reis, tomaten">
-            <br>
-            <button onclick="search()">Suchen</button>
+            <div class="ingredient-adder">
+                <input id="input" placeholder="Zutat eingeben...">
+                <button class="add-btn" onclick="addIngredient()">Hinzufügen</button>
+            </div>
+
+            <div id="selectedIngredients" class="selected-ingredients"></div>
+
+            <div class="quick-select">
+                <p class="quick-select-label">Schnellauswahl:</p>
+                <div id="quickSelect" class="quick-chips"></div>
+            </div>
+
+            <button class="search-btn" onclick="search()">Rezepte finden</button>
 
             <ul id="results"></ul>
         </div>

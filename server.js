@@ -1,64 +1,55 @@
 const express = require("express");
-const app = express();
-const recipes = require("./recipes.json");
 const path = require("path");
+const recipes = require("./recipes.json");
+
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.static(__dirname));
 
-//Zutaten vom User in rezept umwandeln und zurückgeben, sortiert nach Anzahl der Treffer
 app.post("/search", (req, res) => {
-    const userIngredients = req.body.ingredients.map(i => i.toLowerCase());
+    const userIngredients = Array.isArray(req.body.ingredients)
+        ? req.body.ingredients.map(ingredient => ingredient.toLowerCase())
+        : [];
 
-    const results = recipes.map(recipe => {
-        const matches = recipe.ingredients.filter(i =>
-            userIngredients.includes(i)
-        );
+    const results = recipes
+        .map(recipe => {
+            const matches = recipe.ingredients.filter(ingredient =>
+                userIngredients.includes(ingredient.toLowerCase())
+            );
 
-        return {
-            ...recipe,
-            matchCount: matches.length
-        };
-    })
-        .filter(r => r.matchCount > 0)
+            return {
+                ...recipe,
+                matchCount: matches.length
+            };
+        })
+        .filter(recipe => recipe.matchCount > 0)
         .sort((a, b) => b.matchCount - a.matchCount);
 
     res.json(results);
 });
 
-// Server starten
-app.listen(3000, () => {
-    console.log("Server läuft auf http://localhost:3000");
-});
-
-// HTML zurückgeben
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname,"index.html"));
-});
-
-//CSS zurückgeben
-app.get("/style.css", (req, res) => {
-    res.sendFile(path.join(__dirname,"style.css"));
-});
-
-//JS zurückgeben
-app.get("/script.js", (req, res) => {
-    res.sendFile(path.join(__dirname,"script.js"));
-});
-
-//get top 5 zutaten mit anzahl der vorkommen in rezepten
 app.get("/top-ingredients", (req, res) => {
-    const count = {};
+    const ingredientCounts = {};
 
     recipes.forEach(recipe => {
-        recipe.ingredients.forEach(i => {
-            count[i] = (count[i] || 0) + 1;
+        recipe.ingredients.forEach(ingredient => {
+            ingredientCounts[ingredient] = (ingredientCounts[ingredient] || 0) + 1;
         });
     });
 
-    const sorted = Object.entries(count)
+    const topIngredients = Object.entries(ingredientCounts)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 5);
 
-    res.json(sorted);
+    res.json(topIngredients);
+});
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
+
+app.listen(PORT, () => {
+    console.log(`Server laeuft auf http://localhost:${PORT}`);
 });
